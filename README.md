@@ -4,12 +4,18 @@ This is sample code to open/close your garage door using a Raspberry Pi, a sains
 Note. I did try some other relay before and it did not work. That is why I am pushing for the SainSmart relay.
 
 This code, will allow you to open/close your garage door from anywhere in the world, see the status of your garage door to see if it is open/close. 
-It will also log, the open/closure time of the garage door and send you email or text message if you left the garage door open too long. It is currently set-up to send email/text if it is open for more than 5 mins for first alert and more than 5 hours for second alert. Also, if it sent an alert, it will also alert when the door is closed.
+It will also log the open/close time of the garage door and send you an alert (via email or text message via email) if you left the garage door open too long. It is currently set-up to send the alert if it is open for more than 5 mins for first alert and more than 5 hours for second alert. Also, if it sent an alert, it will also alert when the door is closed.
 
 This sample code is using GPIO pin 7 for the magnetic sensor to read if the left door is open/close, gpio 17 to send the signal to the relay to open/close the left door. It is using pin 8 for the sensor for right door and pin 18 for the relay for the right door.
 
-For this to work, we have garage2.html which is the code to show you the status of the door, give you the button to open/close the door, show you a log of when the door was closed/opened. We have myscript.py is the code that monitor the garage door, log when it was opened/closed, send alerts if it is opened too long. 
-garage2.html is acting as the client and myscript.py is acting as the server. garage2.html will be calling code from myscript.py to get log information. myscript.py will be calling l_logger.sh and r_logger.sh to write log when door is open/close. It will also call mail.py to send mail or text. It is sending text using email-to-SMS services.
+For this to work...
+- garage2.html is the code to show you the status of the door, give you the button to open/close the door, and show you a log of when the door was closed/opened.
+- myscript.py is the code that monitors the garage doors, log when it was opened/closed, and send alerts if it is opened too long.
+
+The garage2.html file is acting as a client and myscript.py is acting as the server.
+garage2.html will be calling code from myscript.py to get log information. 
+myscript.py will be calling l_logger.sh and r_logger.sh to write the log when door is open/close. 
+myscript.py will also call mail.py to send mail. Text is sent using email-to-SMS services, if available.
 
 To use this, follow these instructions:
 
@@ -20,9 +26,7 @@ To use this, follow these instructions:
 
 . Use the command 'sudo nano /etc/webiopi/config' That will bring up the nano editor to change the Raspberry config file.
 
-
 webiopi install
-
 
 . The main thing to edit in script need to be uncommented for it to run. You need to point to where the file is. e.g myscript = /usr/share/webiopi/htdocs/myscript.py. To exit, press CTRL-X.
 
@@ -62,6 +66,8 @@ sudo chmod 666 /usr/share/webiopi/htdocs/r_garage.log
 
 sudo /usr/share/webiopi/htdocs/mail.py test
 
-. If you want to change the timing of the alert, you can edit ALERT1 and ALERT2 in myscript.py. Note each second is about 1.25. For example, if you want 60 seconds, you enter 75. That number may differ depending on which pi, you have. This is tested on a PI 3
+. If you want to change the timing of the alert, you can edit ALERT1 and ALERT2 in myscript.py. 
+.. Note each second is about 1.25. For example, if you want 60 seconds, you enter 75. That number may differ depending on which pi, you have. 
 
+This is tested on a PI 3
 Hope that you can get it to work.
